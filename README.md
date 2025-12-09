@@ -94,14 +94,36 @@ Open a Pull Request.
 
 Report issues or suggest features at GitHub Issues.
 Changelog
-1.1 (2025-12-08)
+
+### 1.3.1 (2025-12-08)
+- Added Documentation tab to the admin settings page for easy reference.
+- Loaded content from documentation.txt dynamically.
+- Improved tab styling and JS for seamless switching.
+- Minor: Updated JS version to 1.3.1.
+
+### 1.3 (2025-12-08)
+- Added separate field keys for images and videos.
+- Added "Upload Mode" option: Images Only, Videos Only, or Both.
+- Separate validation, labels, and warnings for image and video fields.
+- Updated form to include only enabled fields; display shortcode handles both independently.
+- Enhanced JS for mode-specific validation.
+
+### 1.2 (2025-12-08)
+- Added separate top-level admin menu "Image & Video Submission" for settings.
+- Added "Settings" link in the plugins list pointing to the new admin page.
+- Expanded upload support: Added .jpg, .jpeg, .png, .webp images alongside videos.
+- Updated validation, warning messages, and display logic for images/videos.
+- Improved JS validation with extension check.
+- Default upload label changed to "Image/Video Upload".
+
+## 1.1 (2025-12-08)
 
 Forked and universalized: Configurable CPT slug and ACF field key.
 Updated shortcodes: [image_video_submission] and [image_video_submissions].
 Enhanced admin settings for CPT and field configuration.
 Updated prefixes, text domain, and styling classes.
 
-1.0 (2025-06-11)
+## 1.0 (2025-06-11)
 
 Initial release.
 

@@ -57,6 +57,34 @@ Admin settings page for configuring form access, reCAPTCHA, CPT, field key, and 
 Manage Submissions page for toggling statuses.
 
 == Changelog ==
+
+= 1.3.1 = (2025-12-08)
+* Added Documentation tab in admin settings for quick access to plugin docs.
+
+= Upgrade Notice =
+= 1.3.1 =
+New Documentation tab added to settings page.
+
+= 1.3 =
+* Added separate ACF field keys for images and videos.
+* New "Upload Mode" setting to choose Images Only, Videos Only, or Both.
+* Independent validation and display for each media type.
+
+= Upgrade Notice =
+= 1.3 =
+Configure separate image/video field keys and upload mode in settings.
+
+
+= 1.2 =
+* Added dedicated admin menu and settings link in plugins list.
+* Added support for image uploads (.jpg, .jpeg, .png, .webp).
+* Updated messages and validation for mixed media.
+* Enhanced display shortcode to render images with <img> tag.
+
+= Upgrade Notice =
+= 1.2 =
+Added separate settings page and image upload support. Update shortcodes if needed.
+
 = 1.1 =
 
 Universal fork: Added configurable CPT slug and ACF field key.
