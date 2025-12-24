@@ -1,133 +1,76 @@
 # ACF Image & Video Frontend Submission Form
-![Plugin Version](https://img.shields.io/badge/version-1.1-blue)
+
+![Plugin Version](https://img.shields.io/badge/version-1.3.8-blue)
 ![WordPress Compatibility](https://img.shields.io/badge/WordPress-6.0%2B-green)
 ![PHP Compatibility](https://img.shields.io/badge/PHP-8.0%2B-green)
 ![License](https://img.shields.io/badge/license-GPLv2%2B-blue)
 
-A WordPress plugin for creating a frontend submission form for image and video uploads using Advanced Custom Fields Pro (ACF Pro), with reCAPTCHA support, customizable field labels, and admin management tools.
+A WordPress plugin for frontend image and video submissions using Advanced Custom Fields Pro (ACF Pro). Submissions are saved as drafts with admin review tools.
 
 ## Overview
-The **ACF Image & Video Frontend Submission Form** plugin enables users to submit image and video uploads via a frontend form, integrated with a configurable custom post type (default: `image-video-submission`). It offers robust features like upload restrictions, spam protection via reCAPTCHA v2/v3, and admin interfaces for managing submissions and form settings. Ideal for websites needing user-generated content with secure and customizable form handling.
+This plugin creates a secure frontend form for users to submit images and/or videos. Integrates with a configurable custom post type and ACF Pro fields. All submissions are saved as **drafts** for moderation.
 
 ## Features
-- **Frontend Submission Form**: Submit submissions with `[image_video_submission]` shortcode, including title, content, and upload fields.
-- **Submissions Display**: Show published submissions with `[image_video_submissions limit="5"]`.
-- **Configurable CPT and Field**: Set custom post type slug and ACF field key via admin settings.
-- **Customizable Labels**: Configure field labels (Title, Content, Upload) via admin settings.
-- **Upload Restrictions**: Limit uploads to 30 MB and `.mov`, `.mp4`, `.m4v` formats, with a warning message.
-- **reCAPTCHA Support**: Enable v2 (Checkbox) or v3 (Invisible) with adjustable score threshold (default: 0.5).
-- **Form Access Control**: Public (guest submissions) or private (logged-in users only).
-- **Admin Management**:
-  - **Manage Submissions**: Toggle submission statuses (Publish, Private, Draft).
-  - **ACF Custom Form**: Configure form settings, reCAPTCHA, CPT slug, field key, and labels.
-- **Secure Validation**: Client-side and server-side checks for file uploads and spam protection.
-- **Dependency Management**: Requires Advanced Custom Fields Pro (ACF Pro), prompted via TGM Plugin Activation.
+- **Dual Media Support**: Images (.jpg, .jpeg, .png, .webp, .gif) and videos (.mp4, .mov, .m4v).
+- **Configurable Limits**: Admin-set max file sizes (default: 1 MB images, 30 MB videos).
+- **Upload Modes**: Images only, Videos only, or Both.
+- **Clear Warnings**: Prominent file type/size limitation messages on the form.
+- **Custom Labels**: Configurable title, description, and upload field labels.
+- **Access Control**: Public (guests) or private (logged-in only).
+- **Spam Protection**: reCAPTCHA v2/v3 or honeypot.
+- **Admin Tools**:
+  - Settings page for CPT slug, field keys, sizes, reCAPTCHA, etc.
+  - Manage Submissions page to publish/private/draft.
+  - Documentation tab.
+- **Client-Side Enhancements**: Friendly "Choose Image"/"Choose Video" buttons and validation.
+
+Shortcode: `[image_video_submission]`
 
 ## Installation
-### From WordPress Admin
-1. Download the plugin ZIP from [GitHub Releases](https://github.com/Ahkonsu/wpproatoz-acf-image-video-submission/releases).
-2. In WordPress admin, go to **Plugins > Add New > Upload Plugin**.
-3. Upload the ZIP file and activate the plugin.
-4. Install and activate Advanced Custom Fields Pro (ACF Pro) when prompted.
+1. Download from GitHub Releases or clone into `/wp-content/plugins/`.
+2. Activate the plugin.
+3. Install/activate ACF Pro when prompted.
+4. Configure in **Image & Video Submission > Settings**.
 
-### Manual Installation
-1. Clone or download the repository to `/wp-content/plugins/wpproatoz-acf-image-video-submission`.
+## Usage
+- Add `[image_video_submission]` to a page for the form.
+- Submissions appear as drafts in your CPT.
+- Review/publish via **Manage Submissions**.
 
-git clone https://github.com/Ahkonsu/wpproatoz-acf-image-video-submission.git wpproatoz-acf-image-video-submission
-Activate the plugin via the WordPress admin Plugins page.
-Install and activate ACF Pro when prompted.
+## Requirements
+- WordPress 6.0+
+- PHP 8.0+
+- Advanced Custom Fields Pro
 
-Usage
-Shortcodes
+## Contributing
+Fork, branch, PR – welcome! Report issues on GitHub.
 
-[image_video_submission]:
-Add to a page to display the submission form.
-Fields: Title, Content, Upload (30 MB max, .mov, .mp4, .m4v).
-Supports public or private access, with reCAPTCHA v2/v3 or honeypot.
-Example: [image_video_submission]
+## Changelog
+### 1.3.8 (2025-12-23)
+- Finalized warning message display with strong CSS overrides.
+- Improved spacing and visibility.
 
-[image_video_submissions limit="5"]:
-Displays published submissions.
-limit: Number of submissions (default: 5).
-Example: [image_video_submissions limit="3"]
+### 1.3.7 (2025-12-23)
+- JS-based warning messages inside upload boxes.
+- Dynamic text with configurable sizes.
 
-
-Configuration
-
-Go to Image & Video Submissions > ACF Custom Form in the WordPress admin.
-Settings:
-Custom Post Type Slug: Set the CPT slug (default: image-video-submission).
-ACF Field Key: Set the upload field key (default: field_682e59ec3b45a).
-Form Access: Public (guests) or Private (logged-in users).
-reCAPTCHA:
-None: Uses honeypot.
-v2 (Checkbox): Requires user verification.
-v3 (Invisible): Background validation with score threshold (0.0–1.0, default: 0.5).
-Enter Site Key and Secret Key from Google reCAPTCHA.
-
-Field Labels: Customize labels (e.g., "Image/Video Title", "Description", "Upload File").
-
-Save settings.
-Ensure the CPT and upload field are set up in ACF Pro.
-
-Managing Submissions
-
-View Submissions: Go to Image & Video Submissions > All Submissions.
-Manage Statuses: Use Image & Video Submissions > Manage Submissions to set Publish, Private, or Draft.
-Published submissions appear via [image_video_submissions].
-
-Requirements
-
-WordPress 6.0+
-PHP 8.0+
-Advanced Custom Fields Pro (ACF Pro) plugin
-Server settings: upload_max_filesize = 30M, post_max_size = 32M in php.ini
-
-Contributing
-Contributions are welcome! Please:
-
-Fork the repository.
-Create a feature branch (git checkout -b feature/YourFeature).
-Commit changes (git commit -m 'Add YourFeature').
-Push to the branch (git push origin feature/YourFeature).
-Open a Pull Request.
-
-Report issues or suggest features at GitHub Issues.
-Changelog
+### 1.3.6 (2025-12-23)
+- Configurable max sizes, GIF support, draft submissions.
 
 ### 1.3.1 (2025-12-08)
-- Added Documentation tab to the admin settings page for easy reference.
-- Loaded content from documentation.txt dynamically.
-- Improved tab styling and JS for seamless switching.
-- Minor: Updated JS version to 1.3.1.
+- Documentation tab added.
 
 ### 1.3 (2025-12-08)
-- Added separate field keys for images and videos.
-- Added "Upload Mode" option: Images Only, Videos Only, or Both.
-- Separate validation, labels, and warnings for image and video fields.
-- Updated form to include only enabled fields; display shortcode handles both independently.
-- Enhanced JS for mode-specific validation.
+- Separate image/video field keys and upload modes.
 
 ### 1.2 (2025-12-08)
-- Added separate top-level admin menu "Image & Video Submission" for settings.
-- Added "Settings" link in the plugins list pointing to the new admin page.
-- Expanded upload support: Added .jpg, .jpeg, .png, .webp images alongside videos.
-- Updated validation, warning messages, and display logic for images/videos.
-- Improved JS validation with extension check.
-- Default upload label changed to "Image/Video Upload".
+- Image support, dedicated admin menu.
 
-## 1.1 (2025-12-08)
+### 1.1 (2025-12-08)
+- Configurable CPT and field key.
 
-Forked and universalized: Configurable CPT slug and ACF field key.
-Updated shortcodes: [image_video_submission] and [image_video_submissions].
-Enhanced admin settings for CPT and field configuration.
-Updated prefixes, text domain, and styling classes.
+### 1.0 (2025-06-11)
+- Initial release.
 
-## 1.0 (2025-06-11)
-
-Initial release.
-
-License
-This plugin is licensed under the GPLv2 or later.
-Support
-For support, contact WPProAtoZ at https://wpproatoz.com or open an issue on GitHub.
+## License
+GPLv2 or later.
