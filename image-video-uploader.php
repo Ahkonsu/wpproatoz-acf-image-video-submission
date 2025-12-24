@@ -4,7 +4,7 @@
  * Description: This plugin contains extra custom functions to allow front end submissions of limited items using a custom ACF Pro post type.
  * Author: WPProAtoZ
  * Author URI: https://wpproatoz.com
- * Version: 1.3.6
+ * Version: 1.3.8
  * Requires at least: 6.0
  * Requires PHP: 8.0
  * Text Domain: wpproatoz-acf-image-video-submission
@@ -49,7 +49,7 @@ function iv_scripts() {
         $image_field_key = get_option('iv_image_field_key', '');
         $video_field_key = get_option('iv_video_field_key', '');
 
-        wp_enqueue_script('iv-custom-js', plugin_dir_url(__FILE__) . 'iv-custom.js', array('jquery'), '1.3.6', true);
+        wp_enqueue_script('iv-custom-js', plugin_dir_url(__FILE__) . 'iv-custom.js', array('jquery'), '1.3.8', true);
 
         wp_localize_script('iv-custom-js', 'ivSettings', array(
             'maxImageSize'    => get_option('iv_max_image_size_mb', 1) * 1024 * 1024,
@@ -146,8 +146,8 @@ function iv_display_submission_form() {
     }
 
     // Custom labels and instructions
-    $label_image = get_option('iv_field_label_image', 'Upload Image');
-    $label_video = get_option('iv_field_label_video', 'Upload Video');
+    $label_image = get_option('iv_field_label_image', 'Single Art Gallery Image');
+    $label_video = get_option('iv_field_label_video', 'Video Upload Art Gallery');
     $max_image_mb = get_option('iv_max_image_size_mb', 1);
     $max_video_mb = get_option('iv_max_video_size_mb', 30);
 
@@ -282,15 +282,16 @@ function iv_add_custom_styles() {
         border-style: solid;
     }
 
-    /* Prominent instructions */
-    .acf-field .acf-label + .description,
+    /* Force instructions visible and prominent */
     .acf-field .description {
+        display: block !important;
+        visibility: visible !important;
         color: #e67e22 !important;
         font-style: italic !important;
-        font-size: 1em !important;
+        font-size: 1.1em !important;
         text-align: center !important;
-        margin: 15px 0 20px 0 !important;
-        line-height: 1.4;
+        margin: 15px 0 25px 0 !important;
+        line-height: 1.5;
         padding: 0 20px;
     }
 
@@ -353,8 +354,8 @@ function iv_settings_page() {
         update_option('iv_recaptcha_secret_key', sanitize_text_field($_POST['iv_recaptcha_secret_key'] ?? ''));
         update_option('iv_field_label_title', sanitize_text_field($_POST['iv_field_label_title'] ?? 'Name'));
         update_option('iv_field_label_content', sanitize_text_field($_POST['iv_field_label_content'] ?? 'Description'));
-        update_option('iv_field_label_image', sanitize_text_field($_POST['iv_field_label_image'] ?? 'Upload Image'));
-        update_option('iv_field_label_video', sanitize_text_field($_POST['iv_field_label_video'] ?? 'Upload Video'));
+        update_option('iv_field_label_image', sanitize_text_field($_POST['iv_field_label_image'] ?? 'Single Art Gallery Image'));
+        update_option('iv_field_label_video', sanitize_text_field($_POST['iv_field_label_video'] ?? 'Video Upload Art Gallery'));
         update_option('iv_cpt_slug', $cpt_slug);
         update_option('iv_upload_mode', $upload_mode);
         update_option('iv_image_field_key', $image_field_key);
@@ -372,8 +373,8 @@ function iv_settings_page() {
     $recaptcha_secret_key    = get_option('iv_recaptcha_secret_key', '');
     $field_label_title      = get_option('iv_field_label_title', 'Name');
     $field_label_content    = get_option('iv_field_label_content', 'Description');
-    $field_label_image      = get_option('iv_field_label_image', 'Upload Image');
-    $field_label_video      = get_option('iv_field_label_video', 'Upload Video');
+    $field_label_image      = get_option('iv_field_label_image', 'Single Art Gallery Image');
+    $field_label_video      = get_option('iv_field_label_video', 'Video Upload Art Gallery');
     $cpt_slug               = get_option('iv_cpt_slug', 'image-video-submission');
     $upload_mode            = get_option('iv_upload_mode', 'both');
     $image_field_key        = get_option('iv_image_field_key', '');
