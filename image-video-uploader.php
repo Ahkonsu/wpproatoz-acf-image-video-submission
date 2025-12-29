@@ -4,7 +4,7 @@
  * Description: This plugin contains extra custom functions to allow front end submissions of limited items using a custom ACF Pro post type.
  * Author: WPProAtoZ
  * Author URI: https://wpproatoz.com
- * Version: 1.3.8
+ * Version: 1.3.9
  * Requires at least: 6.0
  * Requires PHP: 8.0
  * Text Domain: wpproatoz-acf-image-video-submission
@@ -32,7 +32,13 @@ function iv_add_settings_link($links) {
 }
 
 function iv_scripts() {
-    wp_enqueue_style('iv-style', 'https://dl.dropboxusercontent.com/s/uqei847n1dvdyah/main.css');
+    // Enqueue local stylesheet
+    wp_enqueue_style(
+        'iv-style',
+        plugin_dir_url(__FILE__) . 'css/iv-style.css',
+        array(),
+        '1.3.9'
+    );
 
     if (is_page() && has_shortcode(get_post()->post_content, 'image_video_submission')) {
         $recaptcha_type = get_option('iv_recaptcha_type', 'none');
@@ -45,47 +51,45 @@ function iv_scripts() {
             wp_enqueue_script('google-recaptcha', $script_url, array(), null, true);
         }
 
-        $upload_mode = get_option('iv_upload_mode', 'both');
-        $image_field_key = get_option('iv_image_field_key', '');
-        $video_field_key = get_option('iv_video_field_key', '');
+        $upload_mode      = get_option('iv_upload_mode', 'both');
+        $image_field_key  = get_option('iv_image_field_key', '');
+        $video_field_key  = get_option('iv_video_field_key', '');
 
-        wp_enqueue_script('iv-custom-js', plugin_dir_url(__FILE__) . 'iv-custom.js', array('jquery'), '1.3.8', true);
+        wp_enqueue_script('iv-custom-js', plugin_dir_url(__FILE__) . 'iv-custom.js', array('jquery'), '1.3.9', true);
 
         wp_localize_script('iv-custom-js', 'ivSettings', array(
-            'maxImageSize'    => get_option('iv_max_image_size_mb', 1) * 1024 * 1024,
-            'maxVideoSize'    => get_option('iv_max_video_size_mb', 30) * 1024 * 1024,
-            'imageMaxMB'      => get_option('iv_max_image_size_mb', 1),
-            'videoMaxMB'      => get_option('iv_max_video_size_mb', 30),
-            'imageTypes'      => ['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/gif'],
-            'videoTypes'      => ['video/mp4', 'video/quicktime', 'video/x-m4v'],
-            'imageExtensions' => ['jpg', 'jpeg', 'png', 'webp', 'gif'],
-            'videoExtensions' => ['mp4', 'mov', 'm4v'],
-            'imageFieldKey'   => $image_field_key,
-            'videoFieldKey'   => $video_field_key,
-            'uploadMode'      => $upload_mode,
-            'errorImageType'  => __('Only .jpg, .jpeg, .png, .webp, .gif files are allowed for images.', 'wpproatoz-acf-image-video-submission'),
-            'errorVideoType'  => __('Only .mov, .m4v, .mp4 files are allowed for videos.', 'wpproatoz-acf-image-video-submission'),
-            'labelTitle'      => sanitize_text_field(get_option('iv_field_label_title', 'Name')),
-            'labelContent'    => sanitize_text_field(get_option('iv_field_label_content', 'Description'))
+            'maxImageSize'     => get_option('iv_max_image_size_mb', 1) * 1024 * 1024,
+            'maxVideoSize'     => get_option('iv_max_video_size_mb', 30) * 1024 * 1024,
+            'imageMaxMB'       => get_option('iv_max_image_size_mb', 1),
+            'videoMaxMB'       => get_option('iv_max_video_size_mb', 30),
+            'imageTypes'       => ['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/gif'],
+            'videoTypes'       => ['video/mp4', 'video/quicktime', 'video/x-m4v'],
+            'imageExtensions'  => ['jpg', 'jpeg', 'png', 'webp', 'gif'],
+            'videoExtensions'  => ['mp4', 'mov', 'm4v'],
+            'imageFieldKey'    => $image_field_key,
+            'videoFieldKey'    => $video_field_key,
+            'uploadMode'       => $upload_mode,
+            'errorImageType'   => __('Only .jpg, .jpeg, .png, .webp, .gif files are allowed for images.', 'wpproatoz-acf-image-video-submission'),
+            'errorVideoType'   => __('Only .mp4, .mov, .m4v files are allowed for videos.', 'wpproatoz-acf-image-video-submission'),
+            'labelTitle'       => sanitize_text_field(get_option('iv_field_label_title', 'Name')),
+            'labelContent'     => sanitize_text_field(get_option('iv_field_label_content', 'Description'))
         ));
     }
 }
 add_action('wp_enqueue_scripts', 'iv_scripts');
 
 require_once dirname(__FILE__) . '/class-tgm-plugin-activation.php';
-
 add_action('tgmpa_register', 'iv_register_required_plugins');
 function iv_register_required_plugins() {
     $plugins = array(
         array(
-            'name'               => 'Advanced Custom Fields Pro (ACF Pro)',
-            'slug'               => 'advanced-custom-fields-pro',
-            'source'             => 'https://www.advancedcustomfields.com',
-            'required'           => true,
-            'external_url'       => 'https://www.advancedcustomfields.com/pro/',
+            'name'     => 'Advanced Custom Fields Pro (ACF Pro)',
+            'slug'     => 'advanced-custom-fields-pro',
+            'source'   => 'https://www.advancedcustomfields.com',
+            'required' => true,
+            'external_url' => 'https://www.advancedcustomfields.com/pro/',
         ),
     );
-
     $config = array(
         'id'           => 'iv-extra',
         'default_path' => '',
@@ -96,7 +100,6 @@ function iv_register_required_plugins() {
         'dismissable'  => true,
         'is_automatic' => false,
     );
-
     tgmpa($plugins, $config);
 }
 
@@ -122,13 +125,12 @@ function iv_display_submission_form() {
         return '<p>Error: Advanced Custom Fields Pro is required to use this form.</p>';
     }
 
-    $cpt_slug        = get_option('iv_cpt_slug', 'image-video-submission');
-    $upload_mode     = get_option('iv_upload_mode', 'both');
-    $image_field_key = get_option('iv_image_field_key', '');
-    $video_field_key = get_option('iv_video_field_key', '');
+    $cpt_slug         = get_option('iv_cpt_slug', 'image-video-submission');
+    $upload_mode      = get_option('iv_upload_mode', 'both');
+    $image_field_key  = get_option('iv_image_field_key', '');
+    $video_field_key  = get_option('iv_video_field_key', '');
 
     $fields = array();
-
     if ($upload_mode === 'images' || $upload_mode === 'both') {
         if (!empty($image_field_key)) $fields[] = $image_field_key;
     }
@@ -137,8 +139,8 @@ function iv_display_submission_form() {
     }
 
     if (empty($fields)) {
-        return '<p>Error: No upload fields configured. Please check ACF field keys in plugin settings.</p>';
-    }
+    return '<p><strong>DEBUG: No fields detected.</strong> Check: Keys match exactly? Field group assigned to CPT? Upload mode correct?</p>';
+}
 
     $form_access = get_option('iv_form_access', 'public');
     if ($form_access === 'private' && !is_user_logged_in()) {
@@ -199,21 +201,21 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     acf_form(array(
-        'post_id'         => 'new_post',
-        'post_title'      => true,
-        'post_content'    => true,
-        'form'            => true,
-        'new_post'        => array(
+        'post_id'     => 'new_post',
+        'post_title'  => true,
+        'post_content'=> true,
+        'form'        => true,
+        'new_post'    => array(
             'post_type'   => $cpt_slug,
             'post_status' => 'draft',
             'post_author' => is_user_logged_in() ? get_current_user_id() : 1
         ),
-        'fields'          => $fields,
-        'submit_value'    => __('Submit Artwork', 'wpproatoz-acf-image-video-submission'),
-        'return'          => add_query_arg('submitted', 'true', get_permalink()),
+        'fields'      => $fields,
+        'submit_value'=> __('Submit Artwork', 'wpproatoz-acf-image-video-submission'),
+        'return'      => add_query_arg('submitted', 'true', get_permalink()),
         'form_attributes' => array('enctype' => 'multipart/form-data'),
         'html_before_fields' => $recaptcha_html,
-        'uploader'        => 'basic'
+        'uploader'    => 'basic'
     ));
 
     return ob_get_clean();
@@ -225,9 +227,10 @@ function iv_validate_submission($post_id, $values) {
         return $post_id;
     }
 
+    // reCAPTCHA validation
     $recaptcha_type        = get_option('iv_recaptcha_type', 'none');
     $recaptcha_site_key    = get_option('iv_recaptcha_site_key', '');
-    $recaptcha_secret_key   = get_option('iv_recaptcha_secret_key', '');
+    $recaptcha_secret_key  = get_option('iv_recaptcha_secret_key', '');
     $recaptcha_v3_threshold = floatval(get_option('iv_recaptcha_v3_threshold', 0.5));
     $recaptcha_enabled     = $recaptcha_type !== 'none' && !empty($recaptcha_site_key) && !empty($recaptcha_secret_key);
 
@@ -261,15 +264,49 @@ function iv_validate_submission($post_id, $values) {
         wp_die('Please complete the reCAPTCHA.', 'Submission Error', array('back_link' => true));
     }
 
+    // Server-side file validation
+    $upload_mode     = get_option('iv_upload_mode', 'both');
+    $image_field_key = get_option('iv_image_field_key', '');
+    $video_field_key = get_option('iv_video_field_key', '');
+    $max_image_bytes = get_option('iv_max_image_size_mb', 1) * 1024 * 1024;
+    $max_video_bytes = get_option('iv_max_video_size_mb', 30) * 1024 * 1024;
+
+    $allowed_image_types = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/gif'];
+    $allowed_video_types = ['video/mp4', 'video/quicktime', 'video/x-m4v'];
+
+    // Validate image
+    if (($upload_mode === 'images' || $upload_mode === 'both') && !empty($image_field_key) && isset($_FILES['acf']['error'][$image_field_key]) && $_FILES['acf']['error'][$image_field_key] === UPLOAD_ERR_OK) {
+        $size = $_FILES['acf']['size'][$image_field_key];
+        $type = $_FILES['acf']['type'][$image_field_key];
+
+        if ($size > $max_image_bytes) {
+            wp_die(sprintf(__('Image file too large. Maximum size is %d MB.', 'wpproatoz-acf-image-video-submission'), get_option('iv_max_image_size_mb', 1)), 'Submission Error', array('back_link' => true));
+        }
+        if (!in_array($type, $allowed_image_types)) {
+            wp_die(__('Invalid image file type. Only .jpg, .jpeg, .png, .webp, .gif allowed.', 'wpproatoz-acf-image-video-submission'), 'Submission Error', array('back_link' => true));
+        }
+    }
+
+    // Validate video
+    if (($upload_mode === 'videos' || $upload_mode === 'both') && !empty($video_field_key) && isset($_FILES['acf']['error'][$video_field_key]) && $_FILES['acf']['error'][$video_field_key] === UPLOAD_ERR_OK) {
+        $size = $_FILES['acf']['size'][$video_field_key];
+        $type = $_FILES['acf']['type'][$video_field_key];
+
+        if ($size > $max_video_bytes) {
+            wp_die(sprintf(__('Video file too large. Maximum size is %d MB.', 'wpproatoz-acf-image-video-submission'), get_option('iv_max_video_size_mb', 30)), 'Submission Error', array('back_link' => true));
+        }
+        if (!in_array($type, $allowed_video_types)) {
+            wp_die(__('Invalid video file type. Only .mp4, .mov, .m4v allowed.', 'wpproatoz-acf-image-video-submission'), 'Submission Error', array('back_link' => true));
+        }
+    }
+
     return $post_id;
 }
 
 add_action('wp_head', 'iv_add_custom_styles');
 function iv_add_custom_styles() {
     echo '<style>
-    .iv-success-message { color: #008000; font-weight: bold; margin-bottom: 20px; }
-
-    /* Basic uploader styling */
+    .iv-success-message { color: #008000; font-weight: bold; margin-bottom: 20px; text-align: center; }
     .acf-basic-uploader {
         text-align: center;
         padding: 40px 30px;
@@ -278,11 +315,7 @@ function iv_add_custom_styles() {
         background: #f9f9f9;
         margin-bottom: 30px;
     }
-    .acf-basic-uploader.has-value {
-        border-style: solid;
-    }
-
-    /* Force instructions visible and prominent */
+    .acf-basic-uploader.has-value { border-style: solid; }
     .acf-field .description {
         display: block !important;
         visibility: visible !important;
@@ -294,8 +327,6 @@ function iv_add_custom_styles() {
         line-height: 1.5;
         padding: 0 20px;
     }
-
-    /* Hide edit links */
     .acf-field-image .acf-actions a[data-name="edit"],
     .acf-field-file .acf-actions a[data-name="edit"],
     .acf-field-image .file-info,
@@ -307,8 +338,7 @@ function iv_add_custom_styles() {
 
 add_action('admin_menu', 'iv_add_admin_menu');
 function iv_add_admin_menu() {
-    $cpt_slug = get_option('iv_cpt_slug', 'image-video-submission');
-
+    // Top-level menu
     add_menu_page(
         'Image & Video Submission Settings',
         'Image & Video Submission',
@@ -319,8 +349,19 @@ function iv_add_admin_menu() {
         30
     );
 
+    // Settings submenu
     add_submenu_page(
-        'edit.php?post_type=' . $cpt_slug,
+        'iv-settings',
+        'Settings',
+        'Settings',
+        'manage_options',
+        'iv-settings',
+        'iv_settings_page'
+    );
+
+    // Manage Submissions submenu (now safely under our own menu)
+    add_submenu_page(
+        'iv-settings',
         'Manage Submissions',
         'Manage Submissions',
         'manage_options',
@@ -389,7 +430,19 @@ function iv_settings_page() {
     ?>
     <div class="wrap">
         <h1>Image & Video Submission Settings</h1>
-        <p><strong>Important:</strong> This plugin requires ACF <strong>field keys</strong> (not labels/names). To view keys: Edit your field group → Screen Options (top right) → check "Field Keys".</p>
+<div class="notice notice-warning">
+    <p><strong>Critical: Use ACF Field Keys (not names or labels)</strong></p>
+    <ol>
+        <li>Go to <strong>Custom Fields > Field Groups</strong> in admin.</li>
+        <li>Edit the field group used for your submissions.</li>
+        <li>Top right: Click <strong>Screen Options</strong> → Check <strong>Field Keys</strong>.</li>
+        <li>The key appears next to each field (e.g., <code>field_682e59ec3b45a</code>).</li>
+        <li>Copy and paste the <strong>exact key</strong> (starts with "field_") into the boxes below.</li>
+        <li>Field must be <strong>Image</strong> type for images, <strong>File</strong> type for videos.</li>
+        <li>Field group must be assigned to your CPT (or test with "All post types").</li>
+    </ol>
+    <p>If keys are wrong/missing, the form will be blank with no error shown.</p>
+</div>
 
         <h2 class="nav-tab-wrapper">
             <a href="#iv-settings-tab" class="nav-tab nav-tab-active">Settings</a>

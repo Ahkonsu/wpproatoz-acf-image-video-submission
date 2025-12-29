@@ -63,6 +63,13 @@ Go to **Image & Video Submission > Manage Submissions** to change statuses.
 3. Manage Submissions page for reviewing and publishing drafts.
 
 == Changelog ==
+= 1.3.9 = (2025-12-29)
+* Added prominent yellow warning boxes inside uploaders showing admin-configured limits.
+* Implemented client-side and server-side validation for file type/size enforcement.
+* Fixed admin menu permissions and improved settings instructions for field keys.
+* Forced form visibility with robust CSS overrides for theme/Elementor compatibility.
+* Removed external dependencies; all assets local.
+
 = 1.3.8 = (2025-12-23)
 * Finalized warning messages using ACF instructions with forced visibility CSS.
 * Improved uploader styling and spacing.

@@ -1,6 +1,6 @@
 # ACF Image & Video Frontend Submission Form
 
-![Plugin Version](https://img.shields.io/badge/version-1.3.8-blue)
+![Plugin Version](https://img.shields.io/badge/version-1.3.9-blue)
 ![WordPress Compatibility](https://img.shields.io/badge/WordPress-6.0%2B-green)
 ![PHP Compatibility](https://img.shields.io/badge/PHP-8.0%2B-green)
 ![License](https://img.shields.io/badge/license-GPLv2%2B-blue)
@@ -46,6 +46,13 @@ Shortcode: `[image_video_submission]`
 Fork, branch, PR – welcome! Report issues on GitHub.
 
 ## Changelog
+### 1.3.9 = (2025-12-29)
+- Added prominent yellow warning boxes inside uploaders showing admin-configured limits.
+- Implemented client-side and server-side validation for file type/size enforcement.
+- Fixed admin menu permissions and improved settings instructions for field keys.
+- Forced form visibility with robust CSS overrides for theme/Elementor compatibility.
+- Removed external dependencies; all assets local.
+
 ### 1.3.8 (2025-12-23)
 - Finalized warning message display with strong CSS overrides.
 - Improved spacing and visibility.
