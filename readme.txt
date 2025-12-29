@@ -4,7 +4,7 @@ Tags: acf, custom post type, frontend form, image upload, video upload, recaptch
 Requires at least: 6.0
 Tested up to: 6.7
 Requires PHP: 8.0
-Stable tag: 1.3.8
+Stable tag: 1.3.9
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 Requires Plugins: advanced-custom-fields-pro
