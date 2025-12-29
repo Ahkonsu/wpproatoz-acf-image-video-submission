@@ -182,7 +182,7 @@ function iv_display_submission_form() {
     $recaptcha_html = '';
     if ($recaptcha_enabled) {
         if ($recaptcha_type === 'v2') {
-            $recaptcha_html = '<div class="g-recaptcha" data-sitekey="' . esc_attr($recaptcha_site_key) . '"></div>';
+            $recaptcha_html = '<div style="margin: 30px 0; text-align: center;"><div class="g-recaptcha" data-sitekey="' . esc_attr($recaptcha_site_key) . '"></div></div>';
         } elseif ($recaptcha_type === 'v3') {
             $recaptcha_html = '
 <input type="hidden" name="g-recaptcha-response" id="g-recaptcha-response">
@@ -214,7 +214,8 @@ document.addEventListener("DOMContentLoaded", function() {
         'submit_value'=> __('Submit Artwork', 'wpproatoz-acf-image-video-submission'),
         'return'      => add_query_arg('submitted', 'true', get_permalink()),
         'form_attributes' => array('enctype' => 'multipart/form-data'),
-        'html_before_fields' => $recaptcha_html,
+        'html_before_fields' => $honeypot_html,  // Honeypot at top (invisible)
+        'html_after_fields' => $recaptcha_html,  // reCAPTCHA v2 checkbox now at bottom
         'uploader'    => 'basic'
     ));
 
